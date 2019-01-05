@@ -1,0 +1,22 @@
+import sys
+import os
+import dlib
+import glob
+
+# requirements:dlib
+
+predictor_path = "shape_predictor_68_face_landmarks.dat"
+faces_folder_path = "dataset/"
+
+detector = dlib.get_frontal_face_detector()
+predictor = dlib.shape_predictor(predictor_path)
+
+for f in glob.glob(os.path.join(faces_folder_path, "*.png")):
+    print("Processing file: {}".format(f))
+    img = dlib.load_rgb_image(f)
+    dets = detector(img, 1)
+    print(f)
+    print("Number of faces detected   : {}".format(len(dets)))
+    if(len(dets)>0):
+        print("copying image to cleanset folder")
+        os.system("cp "+f+" cleanset/")
